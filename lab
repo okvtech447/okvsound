@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKV SOUND LAB - Discover Your Voice. Find Your Sound.</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎵</text></svg>">
+    <style>
+        /* Music Theme Variables */
+        :root {
+            --primary-purple: #7a00ff; /* Deep Violet/Purple */
+            --primary-dark: #4b0099;
+            --secondary-accent: #ff6600; /* Bright Orange/Copper */
+            --gradient-start: #f8f0ff; /* Very Light Lavender */
+            --gradient-end: #ffffff;
+            --text-color-dark: #222;
+            --text-color-light: #555;
+            --card-bg: #fff;
+            --shadow-music: 0 10px 30px rgba(122, 0, 255, 0.1);
+            --border-radius-xl: 20px;
+            --border-radius-med: 10px;
+        }
+
+        /* General Reset and Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease-out;
+        }
+
+        body {
+            background: linear-gradient(150deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            color: var(--text-color-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        /* Header and Title */
+        .header {
+            text-align: center;
+            padding: 50px 20px 30px;
+            background: var(--primary-purple);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 5px;
+            font-weight: 900;
+        }
+
+        .header h1 span {
+            color: var(--secondary-accent);
+        }
+
+        .header h3 {
+            font-size: 1.1em;
+            font-style: italic;
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 10px auto 0;
+        }
+
+        /* Layout Grid and Container */
+        .container-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 992px) {
+            .container-wrapper {
+                grid-template-columns: 3fr 1fr; /* Main Content (3/4) and Sidebar (1/4) */
+            }
+        }
+
+        /* Tabs Navigation */
+        .tabs-nav {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow-music);
+            padding: 10px;
+            grid-column: 1 / -1; /* Make tabs span full width */
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 15px 10px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--text-color-light);
+            font-weight: 600;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            color: var(--primary-purple);
+        }
+
+        .tab-button.active {
+            color: var(--primary-purple);
+            border-bottom-color: var(--primary-purple);
+            font-weight: 700;
+            background-color: var(--gradient-start);
+            border-radius: var(--border-radius-med);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: var(--border-radius-xl);
+            box-shadow: var(--shadow-music);
+            min-height: 500px;
+        }
+
+        .tab-content h3 {
+            font-size: 2em;
+            margin-bottom: 25px;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--secondary-accent);
+            padding-bottom: 10px;
+            font-weight: 700;
+        }
+
+        /* Quiz Styling */
+        .quiz-question {
+            margin-bottom: 25px;
+            padding: 18px;
+            border-left: 5px solid var(--secondary-accent);
+            background-color: #fff9f0;
+            border-radius: var(--border-radius-med);
+        }
+
+        .quiz-question label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            color: var(--primary-dark);
+        }
+
+        .quiz-options div {
+            margin-bottom: 8px;
+        }
+
+        .quiz-options input[type="radio"] {
+            margin-right: 10px;
+            accent-color: var(--primary-purple);
+            transform: scale(1.1);
+        }
+
+        .submit-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--primary-purple);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-med);
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(122, 0, 255, 0.4);
+            margin-top: 20px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Result Card */
+        .result-card {
+            border: 3px solid var(--secondary-accent);
+            border-radius: var(--border-radius-xl);
+            padding: 35px;
+            margin-top: 30px;
+            background: linear-gradient(135deg, #fff7ed, #ffffff);
+            box-shadow: 0 10px 30px rgba(255, 102, 0, 0.1);
+            display: none; 
+        }
+
+        .result-card h4 {
+            font-size: 1.8em;
+            color: var(--secondary-accent);
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-purple);
+            padding-bottom: 10px;
+        }
+
+        .result-item {
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        .result-item strong {
+            display: block;
+            color: var(--primary-purple);
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+
+        .action-buttons {
+            margin-top: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .action-buttons button, .action-buttons a {
+            padding: 12px 20px;
+            border-radius: var(--border-radius-med);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            flex-grow: 1;
+            min-width: 200px;
+        }
+
+        .btn-download {
+            background-color: var(--secondary-accent);
+            color: white;
+            border: none;
+        }
+
+        .btn-download:hover {
+            background-color: #cc5200;
+        }
+
+        .btn-community {
+            background-color: var(--primary-purple);
+            color: white;
+            border: 2px solid var(--primary-purple);
+        }
+
+        .btn-community:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-retake {
+            background-color: #eee;
+            color: var(--text-color-light);
+            border: 1px solid #ccc;
+        }
+
+        /* Other Tabs Styling (Training Hub & Growth) */
+        .other-tab-content {
+            padding: 10px 0;
+        }
+
+        .other-tab-content h4 {
+            font-size: 1.5em;
+            color: var(--primary-dark);
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+            padding-bottom: 5px;
+        }
+
+        .resource-list, .growth-steps {
+            list-style: none;
+            padding: 0;
+        }
+
+        .resource-list li {
+            background: #f0f7ff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 5px solid var(--primary-purple);
+            border-radius: 4px;
+        }
+        
+        .resource-list a {
+            color: var(--primary-purple);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .growth-steps li {
+            padding: 18px;
+            background: #fff;
+            border-bottom: 1px solid #eee;
+            border-radius: var(--border-radius-med);
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .growth-steps li strong {
+            display: block;
+            font-size: 1.2em;
+            color: var(--secondary-accent);
+            margin-bottom: 5px;
+        }
+        
+        /* --- ADVERTISEMENT SPACES --- */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .ad-space {
+            background-color: #ffeee0; /* Light Orange/Yellow background */
+            border: 1px solid #ffcc80; /* Orange border */
+            border-radius: var(--border-radius-med);
+            padding: 20px;
+            text-align: center;
+            color: #e65100; /* Dark Orange text */
+            font-weight: 600;
+            min-height: 150px;
+            box-shadow: 0 4px 15px rgba(255, 152, 0, 0.1);
+        }
+
+        .ad-space h5 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #d84315;
+            text-transform: uppercase;
+        }
+        
+        .ad-banner-top {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 1000px;
+        }
+        
+        .ad-banner-top .ad-space {
+            min-height: 80px;
+            padding: 15px;
+            border-radius: var(--border-radius-xl);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+
+            .tab-button {
+                font-size: 0.8em;
+                padding: 10px 5px;
+            }
+
+            .tab-content {
+                padding: 20px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-buttons button, .action-buttons a {
+                min-width: 100%;
+            }
+        }
+        @media (max-width: 500px) {
+            .tabs-nav {
+                flex-direction: column;
+                border-radius: var(--border-radius-med);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1>OKV <span>SOUND LAB</span></h1>
+        <h3>Discover Your Voice. Find Your Sound. Grow Your Gift.</h3>
+        <h3>"Helping singers and instrumentalists discover their musical strength, improve their skill, and get personalized training direction."</h3>
+    </header>
+    
+    <div class="ad-banner-top">
+        <div class="ad-space">
+            <h5>ADVERTISEMENT: Master Your Instrument in 30 Days</h5>
+            <p>Enroll in the OKV Partner Online Music Academy. **Get 50% Off** your first month now!</p>
+        </div>
+    </div>
+
+    <div class="container-wrapper">
+        
+        <main class="main-content">
+            <nav class="tabs-nav" id="tabs-nav">
+                <button class="tab-button active" data-tab="vocal-finder">1️⃣ Vocal Finder 🎤</button>
+                <button class="tab-button" data-tab="instrument-finder">2️⃣ Instrument Finder 🎸</button>
+                <button class="tab-button" data-tab="beginner-discovery">3️⃣ Beginner’s Discovery 🧑‍🎓</button>
+                <button class="tab-button" data-tab="training-hub">4️⃣ Training Hub 📚</button>
+                <button class="tab-button" data-tab="growth-mentorship">5️⃣ Growth & Mentorship 📈</button>
+            </nav>
+
+            <div id="tab-content-container">
+
+                <div class="tab-content" id="vocal-finder">
+                    <h3>1️⃣ Vocal Finder: Discover Your Voice Type</h3>
+                    <div class="quiz-section" id="vocal-quiz-section">
+                        <form id="vocal-quiz-form">
+                            
+                            <div class="quiz-question">
+                                <label>1. Are you male or female?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="vocal_q1" value="male" required> Male</div>
+                                    <div><input type="radio" name="vocal_q1" value="female" required> Female</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>2. How high or low can your voice comfortably go?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="vocal_q2" value="high" required> Very high 🎶</div>
+                                    <div><input type="radio" name="vocal_q2" value="medium" required> Medium / balanced 🎵</div>
+                                    <div><input type="radio" name="vocal_q2" value="low" required> Deep / low 🎼</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>3. What kind of songs do you love to sing?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="vocal_q3" value="worship" required> Worship / Gospel</div>
+                                    <div><input type="radio" name="vocal_q3" value="pop" required> Pop / Afrobeats</div>
+                                    <div><input type="radio" name="vocal_q3" value="classical" required> Classical / Choir</div>
+                                    <div><input type="radio" name="vocal_q3" value="soul" required> Soul / R&B</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>4. Can you hold a note for long?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="vocal_q4" value="yes" required> Yes (Good stamina)</div>
+                                    <div><input type="radio" name="vocal_q4" value="bit" required> A bit (Needs work)</div>
+                                    <div><input type="radio" name="vocal_q4" value="not_sure" required> Not sure yet (Beginner)</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>5. Do you sing better alone or in a group?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="vocal_q5" value="alone" required> Better alone (Soloist potential)</div>
+                                    <div><input type="radio" name="vocal_q5" value="group" required> Better in a group (Harmony/Choir fit)</div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">Find My Voice Type ✅</button>
+                        </form>
+                    </div>
+
+                    <div class="result-card" id="vocal-result-card">
+                        <h4>✅ Your Vocal Part: <span id="vocal-part"></span></h4>
+                        
+                        <div class="result-item"><strong>Range:</strong> <span id="vocal-range"></span></div>
+                        <div class="result-item"><strong>Style Fit:</strong> <span id="vocal-style"></span></div>
+                        <div class="result-item"><strong>Focus on:</strong> <span id="vocal-focus"></span></div>
+                        <div class="result-item"><strong>💡 Training Tip:</strong> <span id="vocal-tip"></span></div>
+                        <div class="result-item"><strong>🎓 Recommended Learning:</strong> <span id="vocal-learn"></span></div>
+                        <div class="result-item"><strong>🧰 Tools:</strong> <span id="vocal-tools"></span></div>
+                        <div class="result-item"><strong>📈 Next Step:</strong> <span id="vocal-next"></span></div>
+
+                        <div class="action-buttons">
+                            <button class="btn-download" onclick="downloadReport('vocal')">Download My Vocal Result 📥</button>
+                            <a href="https://okvtechnology.com/sound-community-singers" target="_blank" class="btn-community">Join OKV Sound Group 🎤</a>
+                            <button class="btn-retake" onclick="resetQuiz('vocal')">🔁 Retake Quiz</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="instrument-finder" style="display:none;">
+                    <h3>2️⃣ Instrument Finder: Pick Your Right Instrument</h3>
+                    <div class="quiz-section" id="instrument-quiz-section">
+                        <form id="instrument-quiz-form">
+                            
+                            <div class="quiz-question">
+                                <label>1. Do you prefer rhythm, melody, or harmony?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="inst_q1" value="rhythm" required> Rhythm (The beat/groove)</div>
+                                    <div><input type="radio" name="inst_q1" value="melody" required> Melody (The tune/solo line)</div>
+                                    <div><input type="radio" name="inst_q1" value="harmony" required> Harmony (The chords/accompaniment)</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>2. What do you enjoy most: leading, supporting, or blending sounds?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="inst_q2" value="leading" required> Leading the song (Soloing/Main part)</div>
+                                    <div><input type="radio" name="inst_q2" value="supporting" required> Supporting the rhythm/bass</div>
+                                    <div><input type="radio" name="inst_q2" value="blending" required> Blending (Chords/Pads)</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>3. Do you like instruments that require hand coordination or blowing/wind control?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="inst_q3" value="hand" required> Hand/Finger coordination (Strings/Keys/Percussion)</div>
+                                    <div><input type="radio" name="inst_q3" value="wind" required> Blowing/Wind control (Sax, Flute, Trumpet)</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>4. Do you enjoy singing along while playing?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="inst_q4" value="yes" required> Yes, I must be able to sing while playing (Accompaniment)</div>
+                                    <div><input type="radio" name="inst_q4" value="no" required> No, I prefer to focus solely on the instrument</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>5. What kind of music moves you most?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="inst_q5" value="afrobeat" required> Afrobeat, Pop (Rhythmic & energetic)</div>
+                                    <div><input type="radio" name="inst_q5" value="jazz" required> Jazz, Classical (Complex & technical)</div>
+                                    <div><input type="radio" name="inst_q5" value="worship" required> Worship, Gospel (Emotional & chord-based)</div>
+                                    <div><input type="radio" name="inst_q5" value="rock" required> Rock, Blues (String/Guitar focused)</div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">Find My Instrument ✅</button>
+                        </form>
+                    </div>
+
+                    <div class="result-card" id="instrument-result-card">
+                        <h4>✅ Recommended Instrument: <span id="instrument-name"></span></h4>
+                        
+                        <div class="result-item"><strong>Perfect for:</strong> <span id="instrument-perfect"></span></div>
+                        <div class="result-item"><strong>Best For:</strong> <span id="instrument-best"></span></div>
+                        <div class="result-item"><strong>Learn From:</strong> <span id="instrument-learn"></span></div>
+                        <div class="result-item"><strong>Starter Tools:</strong> <span id="instrument-tools"></span></div>
+                        <div class="result-item"><strong>💡 Next Step:</strong> <span id="instrument-next"></span></div>
+                        <div class="result-item"><strong>🎓 Career Path:</strong> <span id="instrument-career"></span></div>
+
+                        <div class="action-buttons">
+                            <button class="btn-download" onclick="downloadReport('instrument')">Download My Instrument Report 📥</button>
+                            <a href="https://okvtechnology.com/sound-community-instrumentalists" target="_blank" class="btn-community">Join Instrumentalist Hub 🎸</a>
+                            <button class="btn-retake" onclick="resetQuiz('instrument')">🔁 Retake Quiz</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="beginner-discovery" style="display:none;">
+                    <h3>3️⃣ Beginner’s Discovery: Where to Start?</h3>
+                    <div class="quiz-section" id="beginner-quiz-section">
+                        <form id="beginner-quiz-form">
+                            
+                            <div class="quiz-question">
+                                <label>1. Do you love singing along to songs or focusing on the background sounds?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="begin_q1" value="singing" required> Singing along / The main tune</div>
+                                    <div><input type="radio" name="begin_q1" value="background" required> Background sounds / Rhythm / Chords</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>2. Do you prefer performing in front of people or staying behind the scenes?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="begin_q2" value="front" required> Performing in front (Vocalist role)</div>
+                                    <div><input type="radio" name="begin_q2" value="behind" required> Behind the scenes (Instrumentalist/Producer role)</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>3. Can you easily identify musical notes or rhythms by ear?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="begin_q3" value="notes" required> Easily identify notes/melodies</div>
+                                    <div><input type="radio" name="begin_q3" value="rhythms" required> Easily identify rhythms/beats</div>
+                                    <div><input type="radio" name="begin_q3" value="neither" required> Neither yet (Need ear training)</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>4. What do you already have access to? </label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="begin_q4" value="voice" required> Just my voice</div>
+                                    <div><input type="radio" name="begin_q4" value="guitar" required> Guitar or similar string instrument</div>
+                                    <div><input type="radio" name="begin_q4" value="keyboard" required> Keyboard or piano app</div>
+                                    <div><input type="radio" name="begin_q4" value="none" required> None yet</div>
+                                </div>
+                            </div>
+
+                            <div class="quiz-question">
+                                <label>5. What do you want to do first?</label>
+                                <div class="quiz-options">
+                                    <div><input type="radio" name="begin_q5" value="learn" required> Learn foundational skills</div>
+                                    <div><input type="radio" name="begin_q5" value="perform" required> Perform existing songs</div>
+                                    <div><input type="radio" name="begin_q5" value="compose" required> Compose original music/beats</div>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">Get My Starter Path ✅</button>
+                        </form>
+                    </div>
+
+                    <div class="result-card" id="beginner-result-card">
+                        <h4>✅ Recommended Starting Point: <span id="beginner-point"></span></h4>
+                        
+                        <div class="result-item"><strong>Why:</strong> <span id="beginner-why"></span></div>
+                        <div class="result-item"><strong>Start with:</strong> <span id="beginner-start"></span></div>
+                        <div class="result-item"><strong>Tools:</strong> <span id="beginner-tools"></span></div>
+                        <div class="result-item"><strong>Learn From:</strong> <span id="beginner-learn"></span></div>
+                        <div class="result-item"><strong>Growth Path:</strong> <span id="beginner-growth"></span></div>
+
+                        <div class="action-buttons">
+                            <button class="btn-download" onclick="downloadReport('beginner')">Download My Music Starter Plan 📥</button>
+                            <a href="https://okvtechnology.com/sound-community-beginners" target="_blank" class="btn-community">Join Beginners’ Corner 🎶</a>
+                            <button class="btn-retake" onclick="resetQuiz('beginner')">🔁 Retake Quiz</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="training-hub" style="display:none;">
+                    <h3>4️⃣ Training Hub: Free Learning Materials</h3>
+                    <div class="other-tab-content">
+                        <p>Access our curated library of free resources to kickstart your musical journey today!</p>
+                        
+                        <h4>Free Tutorials & Channels</h4>
+                        <ul class="resource-list">
+                            <li>🎓 <a href="https://www.youtube.com/results?search_query=free+vocal+training+warmups" target="_blank">Vocal Training Warm-ups (YouTube Playlist)</a>: Essential daily exercises for voice control and strength.</li>
+                            <li>🎹 <a href="https://www.youtube.com/results?search_query=piano+basics+for+beginners" target="_blank">Piano/Keyboard for Beginners</a>: Learn major chords, minor chords, and basic scales.</li>
+                            <li>🎸 <a href="https://www.youtube.com/results?search_query=guitar+chord+basics" target="_blank">Guitar Chord Basics (Tutorials)</a>: Master the four most common chords (G, C, D, Em).</li>
+                            <li>🥁 <a href="https://www.youtube.com/results?search_query=drum+basics+for+beginners" target="_blank">Drum Basics & Rhythm Drills</a>: Start with basic time signatures and coordination drills.</li>
+                        </ul>
+
+                        <h4>Music Theory & Practice Articles</h4>
+                        <ul class="resource-list">
+                            <li>📚 Articles on music theory: Understanding Pitch, Rhythm, and Harmony.</li>
+                            <li>💬 Tips from OKV mentors: How to overcome stage fright and maintain vocal health.</li>
+                            <li>🎧 Ear Training: Simple exercises to improve your ability to identify notes and intervals.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tab-content" id="growth-mentorship" style="display:none;">
+                    <h3>5️⃣ Growth & Mentorship: Your Personalized Roadmap</h3>
+                    <div class="other-tab-content">
+                        <p>This plan outlines the six essential stages to go from a music enthusiast to a professional artist or highly skilled instrumentalist:</p>
+                        
+                        <ul class="growth-steps">
+                            <li>
+                                <strong>1. Discover:</strong>
+                                Take the OKV SOUND quizzes to identify your voice type or best instrument.
+                            </li>
+                            <li>
+                                <strong>2. Train:</strong>
+                                Commit to daily practice (vocal warm-ups, scale drills, basic chords) for 3-6 months.
+                            </li>
+                            <li>
+                                <strong>3. Practice:</strong>
+                                Apply theory to real songs. Practice with a metronome and record yourself to track progress.
+                            </li>
+                            <li>
+                                <strong>4. Perform:</strong>
+                                Start small! Perform for family, join a church choir, or play at local open mic nights. Build confidence.
+                            </li>
+                            <li>
+                                <strong>5. Record:</strong>
+                                Create high-quality recordings (even simple covers). Build a public portfolio (e.g., YouTube channel, SoundCloud).
+                            </li>
+                            <li>
+                                <strong>6. Monetize:</strong>
+                                Teach lessons, play paid gigs, compose music for others, or pursue a record deal/producer role.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+        
+        <aside class="sidebar">
+            <div class="ad-space">
+                <h5>AD SPACE 2 (Vocal Coach Spotlight)</h5>
+                <p>Need 1-on-1 personalized training? Book a session with one of our certified OKV vocal coaches today!</p>
+                <p><em>[Booking Link Placeholder]</em></p>
+            </div>
+
+            <div class="ad-space">
+                <h5>AD SPACE 3 (Gear & Equipment)</h5>
+                <p>Searching for a starter guitar or MIDI keyboard? Get exclusive deals on gear from our trusted partners!</p>
+                <p><em>[Ecommerce Link Placeholder]</em></p>
+            </div>
+        </aside>
+
+    </div>
+
+    <script>
+        // --- DATA STRUCTURES (Vocal & Instrument Recommendations) ---
+
+        const vocalMap = {
+            // Q1: Gender, Q2: Range, Q3: Style, Q4: Stamina, Q5: Group/Solo
+            'male_high_worship_yes_alone': { part: 'Tenor', range: 'High male voice', style: 'Gospel, Pop Ballads', focus: 'High note projection & breath support', tip: 'Daily siren slides and head voice exercises.', learn: '“Vocal Warm-up for Tenors – YouTube”', tools: 'Pitch App, Voice Recorder', next: 'Join OKV Vocal Class (Tenor Training)' },
+            'male_medium_pop_bit_group': { part: 'Baritone', range: 'Medium male voice', style: 'Afro-Pop, R&B, Choir', focus: 'Blending, chest voice stability, and vibrato', tip: 'Practice singing slightly higher notes to expand range.', learn: '“Baritone Voice Exercises – YouTube”', tools: 'Pitch App, Voice Recorder', next: 'Join a local choir or small music group.' },
+            'male_low_classical_not_sure_alone': { part: 'Bass', range: 'Deep male voice', style: 'Classical, Deep Soul, Choir', focus: 'Low note resonance and breath stamina', tip: 'Focus on breathing from the diaphragm and low hums.', learn: '“Bass Voice Tips and Resonance – YouTube”', tools: 'Pitch App, Voice Recorder', next: 'Learn basic music theory for better tone control.' },
+            
+            'female_high_pop_yes_alone': { part: 'Soprano', range: 'Very High female voice', style: 'Pop, Classical Arias, Gospel', focus: 'Head voice control and sustained high notes', tip: 'Practice soft high notes (falsetto/head voice) daily.', learn: '“Soprano Vocal Training for Beginners – YouTube”', tools: 'Pitch App, Voice Recorder', next: 'Join OKV Vocal Class (Soprano Training)' },
+            'female_medium_worship_bit_group': { part: 'Mezzo-Soprano', range: 'Medium-High female voice', style: 'Pop, Gospel, Soul', focus: 'Blending between chest and head voice (The break)', tip: 'Practice scales that transition between vocal registers smoothly.', learn: '“Mezzo-Soprano Mixed Voice Tutorial – YouTube”', tools: 'Pitch App, Voice Recorder', next: 'Find a vocal coach for personalized break work.' },
+            'female_low_soul_yes_group': { part: 'Alto', range: 'Medium–Low female voice', style: 'Gospel, Soul, Afro-Pop', focus: 'Breathing control & harmony practice', tip: 'Do daily humming and scale exercises (C major scale up & down).', learn: '“Vocal Warm-Ups for Altos – YouTube”', tools: 'Pitch App, Voice Recorder', next: 'Join OKV Vocal Class (Group Alto Training)' },
+        };
+
+        const instrumentMap = {
+            // Q1: Preference, Q2: Role, Q3: Type, Q4: Sing along, Q5: Music Style
+            'rhythm_supporting_hand_no_afrobeat': { name: 'Drums (Percussion)', perfect: 'Rhythm and energy experts', best: 'Producers, studio musicians, band members', learn: '“Drum Basics for Beginners – YouTube”, Metronome drills', tools: 'Drum pad app, Sticks, Metronome', next: 'Master 4 basic Afrobeat/Pop rhythms', career: 'Studio Drummer / Session Musician / Beat Maker' },
+            'melody_leading_hand_yes_worship': { name: 'Keyboard (Piano)', perfect: 'Melody and harmony lovers', best: 'Worship leaders, songwriters, producers', learn: '“Piano for Beginners”, Coursera Music Basics', tools: 'MIDI keyboard or mobile piano app', next: 'Learn major & minor scales for 2 weeks', career: 'Music Director / Producer / Church Pianist' },
+            'harmony_blending_hand_yes_rock': { name: 'Guitar (Acoustic)', perfect: 'Chords and accompaniment', best: 'Singer-songwriters, band guitarists', learn: '“Beginner Guitar Chords G, C, D, Em – YouTube”', tools: 'Acoustic Guitar, Tuner app, Picks', next: 'Master the 5 basic open chords (CAGED)', career: 'Recording Artist / Session Guitarist / Composer' },
+            'melody_leading_wind_no_jazz': { name: 'Saxophone/Trumpet', perfect: 'Strong, expressive melody lines', best: 'Soloists, Jazz musicians, Band members', learn: 'Private lessons, Music School', tools: 'Instrument (Sax/Trumpet), Reeds/Mouthpiece', next: 'Learn basic embouchure and long tone exercises', career: 'Soloist / Session Horn Player / Music Teacher' },
+            'harmony_blending_hand_no_classical': { name: 'Violin/Cello (Strings)', perfect: 'Complex harmony and rich textures', best: 'Orchestra members, Classical performers', learn: 'Private teacher highly recommended', tools: 'Instrument, Bow, Rosin, Tuner', next: 'Focus on proper bowing and finger placement (intonation)', career: 'Orchestra Member / Music Educator' }
+        };
+
+        const beginnerMap = {
+            // Q1: Focus, Q2: Role, Q3: Ear, Q4: Access, Q5: Goal
+            'singing_front_notes_voice_perform': { point: 'Singing (Tenor/Soprano - best fit is Vocal Finder)', why: 'You enjoy melody, performing, and already have the tool (your voice)!', start: 'Breathing and scale exercises (Soprano/Tenor focus)', tools: 'Metronome app, pitch app, voice recorder', learn: '“Vocal Warm-up for your range – YouTube”', growth: 'Sing in choir → Join a vocal group → Learn instrument later' },
+            'background_behind_rhythms_none_compose': { point: 'Instrument (Drums/Percussion)', why: 'You have a great ear for rhythm and want to compose/produce behind the scenes.', start: 'Basic timing & coordination drills (4/4 time signature)', tools: 'Drum pad app, sticks, metronome', learn: '“Drum Basics for Beginners – YouTube”', growth: 'Rhythm master → Learn basic harmony → Become a beat producer' },
+            'background_behind_notes_keyboard_learn': { point: 'Instrument (Keyboard/Piano)', why: 'You prefer background sounds and have access to keys, making harmony discovery easy.', start: 'Learn C major scale and basic triad chords (C, F, G)', tools: 'MIDI keyboard or mobile piano app', learn: '“Piano Basics for Beginners – YouTube”', growth: 'Pianist → Music Director → Songwriter' },
+            'singing_front_neither_none_learn': { point: 'Singing First, Instrument Second', why: 'You show vocal interest but need foundational training (ear and voice).', start: 'Daily ear training and vocal warm-ups simultaneously.', tools: 'Pitch app, Metronome app', learn: '“Easy Ear Training Exercises – YouTube”', growth: 'Ear Training → Re-take the quiz in 3 months.' }
+        };
+
+        const defaultVocal = { part: 'Mezzo-Soprano/Baritone', range: 'Medium (mixed range)', style: 'Pop, R&B', focus: 'Blending between registers', tip: 'Find your vocal break and work to smooth it out.', learn: '“Mixed Voice Singing Tutorial – YouTube”', tools: 'Pitch App, Water Bottle (for hydration)', next: 'Focus on 3 months of consistent practice.' };
+        const defaultInstrument = { name: 'Guitar (Acoustic)', perfect: 'Accompanying yourself and simple arrangements', best: 'Singer-songwriters, hobbyists', learn: '“Guitar Basics for Beginners – YouTube”', tools: 'Guitar, Tuner app', next: 'Learn 5 popular songs using the 4 main chords', career: 'Hobbyist Musician / Community Performer' };
+        const defaultBeginner = { point: 'Singing (Vocal Training)', why: 'You need to develop your ear before choosing a path.', start: 'Basic Solfege (Do-Re-Mi) and rhythm tapping drills.', tools: 'Metronome app, voice recorder', learn: '“Ear Training for Beginners – YouTube”', growth: 'Ear Training → Re-take the quiz in 3 months.' };
+
+        // --- QUIZ LOGIC ---
+
+        function processQuiz(type) {
+            const form = document.getElementById(`${type}-quiz-form`);
+            const questions = Array.from(form.elements).filter(el => el.type === 'radio' && el.checked);
+            
+            if (questions.length < 5) {
+                alert('Please answer all 5 questions!');
+                return;
+            }
+
+            const answers = [];
+            for (let i = 1; i <= 5; i++) {
+                const qName = `${type}_q${i}`;
+                const checked = form.querySelector(`input[name="${qName}"]:checked`);
+                if (checked) {
+                    answers.push(checked.value);
+                }
+            }
+            const key = answers.join('_');
+            
+            let result;
+            if (type === 'vocal') {
+                result = vocalMap[key] || defaultVocal;
+                displayVocalResult(result);
+            } else if (type === 'instrument') {
+                result = instrumentMap[key] || defaultInstrument;
+                displayInstrumentResult(result);
+            } else { // beginner
+                result = beginnerMap[key] || defaultBeginner;
+                displayBeginnerResult(result);
+            }
+        }
+
+        function displayVocalResult(result) {
+            document.getElementById('vocal-part').textContent = result.part;
+            document.getElementById('vocal-range').textContent = result.range;
+            document.getElementById('vocal-style').textContent = result.style;
+            document.getElementById('vocal-focus').textContent = result.focus;
+            document.getElementById('vocal-tip').textContent = result.tip;
+            document.getElementById('vocal-learn').textContent = result.learn;
+            document.getElementById('vocal-tools').textContent = result.tools;
+            document.getElementById('vocal-next').textContent = result.next;
+
+            document.getElementById('vocal-quiz-section').style.display = 'none';
+            document.getElementById('vocal-result-card').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function displayInstrumentResult(result) {
+            document.getElementById('instrument-name').textContent = result.name;
+            document.getElementById('instrument-perfect').textContent = result.perfect;
+            document.getElementById('instrument-best').textContent = result.best;
+            document.getElementById('instrument-learn').textContent = result.learn;
+            document.getElementById('instrument-tools').textContent = result.tools;
+            document.getElementById('instrument-next').textContent = result.next;
+            document.getElementById('instrument-career').textContent = result.career;
+
+            document.getElementById('instrument-quiz-section').style.display = 'none';
+            document.getElementById('instrument-result-card').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function displayBeginnerResult(result) {
+            document.getElementById('beginner-point').textContent = result.point;
+            document.getElementById('beginner-why').textContent = result.why;
+            document.getElementById('beginner-start').textContent = result.start;
+            document.getElementById('beginner-tools').textContent = result.tools;
+            document.getElementById('beginner-learn').textContent = result.learn;
+            document.getElementById('beginner-growth').textContent = result.growth;
+
+            document.getElementById('beginner-quiz-section').style.display = 'none';
+            document.getElementById('beginner-result-card').style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+
+        function resetQuiz(type) {
+            const form = document.getElementById(`${type}-quiz-form`);
+            form.reset();
+            document.getElementById(`${type}-quiz-section`).style.display = 'block';
+            document.getElementById(`${type}-result-card`).style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Add event listeners for quiz submissions
+        document.getElementById('vocal-quiz-form').addEventListener('submit', function(e) { e.preventDefault(); processQuiz('vocal'); });
+        document.getElementById('instrument-quiz-form').addEventListener('submit', function(e) { e.preventDefault(); processQuiz('instrument'); });
+        document.getElementById('beginner-quiz-form').addEventListener('submit', function(e) { e.preventDefault(); processQuiz('beginner'); });
+
+        // --- TAB SWITCHING LOGIC ---
+
+        document.getElementById('tabs-nav').addEventListener('click', function(e) {
+            if (e.target.closest('.tab-button')) {
+                const button = e.target.closest('.tab-button');
+                const tabId = button.getAttribute('data-tab');
+                switchTab(tabId);
+            }
+        });
+
+        function switchTab(tabId) {
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.style.display = 'none');
+
+            // Deactivate all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            // Show the selected tab content
+            document.getElementById(tabId).style.display = 'block';
+
+            // Activate the clicked button
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+        }
+        
+        // Ensure initial tab is visible
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTab('vocal-finder');
+        });
+
+        // --- PDF GENERATION (Simulated for Vanilla JS) ---
+
+        function downloadReport(type) {
+            let reportName, contentHTML;
+            const style = `
+                <style>
+                    body{font-family: Arial, sans-serif; padding: 20px;} 
+                    h2{color: #7a00ff; border-bottom: 2px solid #ff6600; padding-bottom: 5px;} 
+                    strong{color: #4b0099; display: block; margin-top: 10px;}
+                </style>
+            `;
+            
+            if (type === 'vocal') {
+                reportName = document.getElementById('vocal-part').textContent;
+                if (!reportName) { alert('Complete the Vocal Quiz first!'); return; }
+                contentHTML = `
+                    <h2>OKV SOUND Vocal Report: ${reportName}</h2><hr/>
+                    <p><strong>Range:</strong> ${document.getElementById('vocal-range').textContent}</p>
+                    <p><strong>Style Fit:</strong> ${document.getElementById('vocal-style').textContent}</p>
+                    <p><strong>Focus on:</strong> ${document.getElementById('vocal-focus').textContent}</p>
+                    <p><strong>Training Tip:</strong> ${document.getElementById('vocal-tip').textContent}</p>
+                    <p><strong>Recommended Learning:</strong> ${document.getElementById('vocal-learn').textContent}</p>
+                    <p><strong>Next Step:</strong> ${document.getElementById('vocal-next').textContent}</p>
+                `;
+            } else if (type === 'instrument') {
+                reportName = document.getElementById('instrument-name').textContent;
+                if (!reportName) { alert('Complete the Instrument Quiz first!'); return; }
+                contentHTML = `
+                    <h2>OKV SOUND Instrument Report: ${reportName}</h2><hr/>
+                    <p><strong>Perfect for:</strong> ${document.getElementById('instrument-perfect').textContent}</p>
+                    <p><strong>Best For:</strong> ${document.getElementById('instrument-best').textContent}</p>
+                    <p><strong>Learn From:</strong> ${document.getElementById('instrument-learn').textContent}</p>
+                    <p><strong>Starter Tools:</strong> ${document.getElementById('instrument-tools').textContent}</p>
+                    <p><strong>Career Path:</strong> ${document.getElementById('instrument-career').textContent}</p>
+                `;
+            } else if (type === 'beginner') {
+                reportName = document.getElementById('beginner-point').textContent;
+                if (!reportName) { alert('Complete the Beginner Quiz first!'); return; }
+                contentHTML = `
+                    <h2>OKV SOUND Music Starter Plan: ${reportName}</h2><hr/>
+                    <p><strong>Why:</strong> ${document.getElementById('beginner-why').textContent}</p>
+                    <p><strong>Start with:</strong> ${document.getElementById('beginner-start').textContent}</p>
+                    <p><strong>Tools:</strong> ${document.getElementById('beginner-tools').textContent}</p>
+                    <p><strong>Learn From:</strong> ${document.getElementById('beginner-learn').textContent}</p>
+                    <p><strong>Growth Path:</strong> ${document.getElementById('beginner-growth').textContent}</p>
+                `;
+            } else {
+                return;
+            }
+
+            const fullHTML = `<!DOCTYPE html><html><head><title>OKV Report</title>${style}</head><body>${contentHTML}</body></html>`;
+            const filename = `OKV_Sound_Report_${reportName.replace(/[^a-zA-Z0-9]/g, '_')}.html`;
+            
+            // Simulating PDF download with HTML file
+            const blob = new Blob([fullHTML], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            alert(`Downloading ${filename} (A stylized HTML file is used to simulate the PDF report).`);
+        }
+    </script>
+
+</body>
+</html>
