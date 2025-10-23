@@ -30,7 +30,7 @@
             color: var(--color-text);
             min-height: 100vh;
             line-height: 1.6;
-            padding: 20px 0;
+            padding: 20px 10px; /* Added horizontal padding for smaller screens */
         }
 
         .container {
@@ -79,14 +79,15 @@
             border-radius: 4px;
         }
 
-        /* Tabs Navigation */
+        /* Tabs Navigation (Responsive Scroll) */
         .tabs-nav {
             display: flex;
             gap: 10px;
             margin-bottom: 30px;
             border-bottom: 2px solid var(--color-bg-light);
-            overflow-x: auto;
+            overflow-x: auto; /* Enables horizontal scrolling for tabs on mobile */
             padding-bottom: 5px;
+            -webkit-overflow-scrolling: touch; /* Improves scrolling on iOS */
         }
 
         .tab-button {
@@ -98,7 +99,7 @@
             font-weight: 600;
             transition: all 0.3s ease;
             border-bottom: 3px solid transparent;
-            white-space: nowrap;
+            white-space: nowrap; /* Ensures buttons stay on one line */
         }
 
         .tab-button:hover {
@@ -142,7 +143,7 @@
 
         .options-list {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* Allows options to wrap on smaller screens */
             gap: 10px;
         }
 
@@ -156,6 +157,8 @@
             font-weight: 400;
             margin-bottom: 0 !important;
             display: inline-block;
+            flex-grow: 1; /* Makes buttons try to fill space more equally */
+            text-align: center;
         }
 
         .options-list input[type="radio"] {
@@ -183,11 +186,6 @@
             cursor: pointer;
             transition: background-color 0.3s, transform 0.1s;
             margin-top: 20px;
-        }
-
-        .submit-btn:hover {
-            background-color: #218838;
-            transform: translateY(-1px);
         }
 
         /* Result Section */
@@ -218,6 +216,7 @@
             margin-bottom: 15px;
         }
 
+        /* Detail responsiveness: ensure strong element doesn't take up too much space on small screens */
         .result-detail strong {
             display: inline-block;
             min-width: 120px;
@@ -233,11 +232,10 @@
             border-left: 5px solid #ffc107;
         }
 
-        .result-tip strong { color: #856404; }
-
         .result-buttons {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: row;
+            flex-wrap: wrap; /* Allows buttons to stack on mobile */
             gap: 15px;
             margin-top: 25px;
         }
@@ -249,36 +247,9 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s, box-shadow 0.3s;
-        }
-
-        .btn-download {
-            background-color: var(--color-primary);
-            color: white;
-        }
-
-        .btn-download:hover {
-            background-color: var(--color-secondary);
-            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4);
-        }
-
-        .btn-community {
-            background-color: var(--color-accent);
-            color: white;
-        }
-
-        .btn-community:hover {
-            background-color: #218838;
-            box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
-        }
-
-        .btn-retake {
-            background-color: #f8f9fa;
-            color: var(--color-text);
-            border: 1px solid #ced4da;
-        }
-
-        .btn-retake:hover {
-            background-color: #e9ecef;
+            flex-grow: 1; /* Makes buttons fill the width nicely when stacked */
+            min-width: 200px; /* Ensures buttons are not too small */
+            text-align: center;
         }
 
         /* Ad Space */
@@ -306,49 +277,82 @@
         }
 
         /* Utility/Other Sections */
-        .section-box {
-            background-color: var(--color-bg-light);
-            padding: 25px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-        }
-
-        .section-box h4 {
-            color: var(--color-primary);
-            margin-bottom: 15px;
-            font-size: 1.5em;
-        }
-
-        .section-box ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .section-box ul li {
-            padding: 8px 0;
-            border-bottom: 1px dotted #ccc;
-        }
-
-        .section-box ul li:last-child {
-            border-bottom: none;
-        }
-
         .section-box table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
+            display: block; /* Allows table to scroll horizontally if needed */
+            overflow-x: auto;
+        }
+        
+        /* RESPONSIVENESS (Media Queries) */
+        
+        /* Tablet & Smaller Desktop */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            header h1 {
+                font-size: 2em;
+            }
+
+            header h3 {
+                font-size: 1em;
+            }
+            
+            /* Make button options stack more consistently on small screens */
+            .options-list label {
+                flex-basis: calc(50% - 10px); /* Two columns */
+                font-size: 0.95em;
+            }
+            
+            /* Force result buttons to stack fully on top of each other */
+            .result-buttons {
+                flex-direction: column;
+            }
+
+            .result-btn {
+                min-width: 100%;
+                font-size: 0.95em;
+            }
+            
+            .ad-large {
+                height: 120px;
+                line-height: 80px;
+            }
         }
 
-        .section-box th, .section-box td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: left;
-        }
+        /* Mobile Phone */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px 5px;
+            }
+            
+            .container {
+                border-radius: 0; /* Full screen experience */
+                box-shadow: none;
+                padding: 10px;
+            }
+            
+            header h1 {
+                font-size: 1.8em;
+            }
 
-        .section-box th {
-            background-color: #e9ecef;
-            color: var(--color-secondary);
-            font-weight: 600;
+            header h1::after {
+                right: -25px;
+            }
+            
+            /* Force question options to be one per line for easy tapping */
+            .options-list label {
+                flex-basis: 100%; /* One column */
+            }
+
+            .result-container h4 {
+                font-size: 1.5em;
+            }
+
+            .result-detail strong {
+                min-width: 90px;
+            }
         }
     </style>
 </head>
@@ -368,11 +372,11 @@
     </div>
 
     <div class="tabs-nav">
-        <button class="tab-button active" data-tab="vocal">1️⃣ Vocal Finder 🎤</button>
-        <button class="tab-button" data-tab="instrument">2️⃣ Instrument Finder 🎸</button>
-        <button class="tab-button" data-tab="beginner">3️⃣ Beginner’s Discovery 🎶</button>
-        <button class="tab-button" data-tab="training">4️⃣ Training Hub 🎓</button>
-        <button class="tab-button" data-tab="growth">5️⃣ Growth & Mentorship 📈</button>
+        <button class="tab-button active" data-tab="vocal">1️⃣ Vocal Finder</button>
+        <button class="tab-button" data-tab="instrument">2️⃣ Instrument Finder</button>
+        <button class="tab-button" data-tab="beginner">3️⃣ Beginner’s Discovery</button>
+        <button class="tab-button" data-tab="training">4️⃣ Training Hub</button>
+        <button class="tab-button" data-tab="growth">5️⃣ Growth & Mentorship</button>
     </div>
 
     <div id="vocal" class="tab-content active">
@@ -734,6 +738,7 @@
         let starterTools = 'Metronome & Piano Note App';
         let careerPath = 'Music Enthusiast';
         let nextStep = 'Try an introductory music app to explore different sounds.';
+        let learning = 'Search: "Music Theory Basics for Beginners - YouTube"';
 
         // 1. Core Instrument Mapping
         if (i_q1 === 'rhythm' && i_q3 === 'hand') {
@@ -810,7 +815,7 @@
             why = 'You enjoy melody and the connection of the human voice. Your natural instrument is ready!';
             startWith = 'Breathing and scale exercises to establish vocal support.';
             tools = 'Metronome app, voice recorder, piano note app';
-            learning = 'Search: "Vocal Warm-up for Tenors/Sopranos (your ideal range) – YouTube"';
+            learning = 'Search: "Vocal Warm-up for Beginners – YouTube"';
 
             if (b_q2 === 'front' && b_q5 === 'perform') {
                 growthPath = 'Sing in a choir → Join an ensemble → Develop solo repertoire for performance.';
@@ -831,11 +836,12 @@
 
             } else if (b_q3 === 'note' || b_q2 === 'back') {
                 // Note focus or prefer behind-the-scenes control
-                startPoint = 'Instrument (Melody/Harmony Focus: Keyboard/Guitar)';
+                let suggestedInstrument = (b_q4 === 'guitar') ? 'Guitar' : 'Keyboard';
+                startPoint = `Instrument (Melody/Harmony Focus: ${suggestedInstrument})`;
                 why = 'You appreciate harmony, composition, and a supportive/controlling role in music arrangement.';
-                startWith = 'Learning the musical alphabet (A-G) and simple major/minor chords.';
-                tools = 'Keyboard app or affordable starter guitar.';
-                learning = 'Search: "First 3 Chords on Guitar/Piano - YouTube"';
+                startWith = `Learning the musical alphabet (A-G) and simple major/minor chords on the ${suggestedInstrument}.`;
+                tools = `${suggestedInstrument} app or affordable starter instrument.`;
+                learning = `Search: "First 3 Chords on ${suggestedInstrument} - YouTube"`;
                 growthPath = 'Master chords/scales → Start composing simple songs → Explore music production/directing.';
             }
         }
@@ -858,11 +864,8 @@
         };
     }
 
-    // --- RENDERING FUNCTIONS ---
+    // --- RENDERING FUNCTIONS (Same as before) ---
 
-    /**
-     * Renders the result to the DOM for Vocal Finder.
-     */
     function renderVocalResult(data) {
         const resultHTML = `
             <h4>✅ Your Vocal Part: ${data.part}</h4>
@@ -890,9 +893,6 @@
         document.getElementById('vocal-result').scrollIntoView({ behavior: 'smooth' });
     }
 
-    /**
-     * Renders the result to the DOM for Instrument Finder.
-     */
     function renderInstrumentResult(data) {
         const resultHTML = `
             <h4>✅ Recommended Instrument: ${data.instrument}</h4>
@@ -916,9 +916,6 @@
         document.getElementById('instrument-result').scrollIntoView({ behavior: 'smooth' });
     }
 
-    /**
-     * Renders the result to the DOM for Beginner's Discovery.
-     */
     function renderBeginnerResult(data) {
         const resultHTML = `
             <h4>✅ Recommended Starting Point: ${data.startPoint}</h4>
@@ -943,7 +940,7 @@
     }
 
 
-    // --- EVENT LISTENERS ---
+    // --- EVENT LISTENERS (Same as before) ---
 
     document.addEventListener('DOMContentLoaded', () => {
         // --- 1. Tab Switching Logic ---
